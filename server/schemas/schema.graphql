@@ -1,0 +1,39 @@
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  sex: Boolean!
+  birthDate: Int!
+}
+
+type Nurse {
+  id: User!
+  secondName: String!
+  address: String!
+  info: String
+  docScan: String!
+  idScan: String!
+  isValidated: Boolean!
+}
+
+type News {
+  id: ID!
+  title: String!
+  text: String!
+  imageLink: String!
+  link: String!
+}
+
+type Adv {
+  id: ID!
+  title: String!
+  text: String!
+  imageLink: String!
+  link: String!
+}
+
+type Query {
+  getUser(id: ID!): User!
+  getAllNews: [News]!
+  getAllAdv: [Adv]!
+}
