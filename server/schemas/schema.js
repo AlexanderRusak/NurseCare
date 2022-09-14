@@ -4,11 +4,12 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLInt,
   GraphQLBoolean,
   GraphQLNonNull,
   GraphQLSchema,
   GraphQLList,
+  GraphQLFloat,
+  GraphQLScalarType,
 } = graphql;
 
 const News = require("../models/news");
@@ -19,17 +20,12 @@ const Nurses = require("../models/nurses");
 const UserType = new GraphQLObjectType({
   name: "User",
   fields: () => ({
-    id: { type: new GraphQLNonNull(GraphQLID) },
-    cvId: {
-      type: NurseType,
-      resolve(parent, args) {
-        return Nurses.findById(parent.cvId);
-      },
-    },
+    cv: { type: NurseType },
     firstName: { type: new GraphQLNonNull(GraphQLString) },
     lastName: { type: new GraphQLNonNull(GraphQLString) },
+    phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
     sex: { type: new GraphQLNonNull(GraphQLBoolean) },
-    birthDate: { type: new GraphQLNonNull(GraphQLInt) },
+    birthDate: { type: new GraphQLNonNull(GraphQLFloat) },
   }),
 });
 
@@ -72,16 +68,11 @@ const Query = new GraphQLObjectType({
   fields: {
     user: {
       type: UserType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Users.findById(args.id);
+      args: {
+        phoneNumber: { type: GraphQLString },
       },
-    },
-    nurse: {
-      type: NurseType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return nurses.find((nurse) => nurse.id == args.id);
+      resolve(parent, { phoneNumber }) {
+        return Users.findOne({ phoneNumber });
       },
     },
     news: {
@@ -96,9 +87,99 @@ const Query = new GraphQLObjectType({
         return Advs.find({});
       },
     },
+    usersCV: {
+      type: new GraphQLList(UserType),
+      resolve(parent, args) {
+        return Users.find({ cv: { $ne: null } });
+      },
+    },
+  },
+});
+
+const Mutation = new GraphQLObjectType({
+  name: "Mutation",
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        firstName: { type: new GraphQLNonNull(GraphQLString) },
+        lastName: { type: new GraphQLNonNull(GraphQLString) },
+        sex: { type: new GraphQLNonNull(GraphQLBoolean) },
+        birthDate: { type: new GraphQLNonNull(GraphQLFloat) },
+        phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, { birthDate, sex, lastName, firstName, phoneNumber }) {
+        const user = new Users({
+          birthDate,
+          cv: null,
+          firstName,
+          lastName,
+          sex,
+          phoneNumber,
+        });
+
+        return user.save();
+      },
+    },
+    addCv: {
+      type: UserType,
+      args: {
+        phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
+        secondName: { type: new GraphQLNonNull(GraphQLString) },
+        address: { type: new GraphQLNonNull(GraphQLString) },
+        info: { type: GraphQLString },
+        docScan: { type: new GraphQLNonNull(GraphQLString) },
+        idScan: { type: GraphQLString },
+      },
+      resolve(
+        parent,
+        { phoneNumber, secondName, address, info, docScan, idScan }
+      ) {
+        return Users.findOneAndUpdate(
+          { phoneNumber },
+          {
+            $set: {
+              cv: {
+                secondName,
+                address,
+                info,
+                docScan,
+                idScan,
+                isValidated: false,
+              },
+            },
+          }
+        );
+      },
+    },
+    editData: {
+      type: UserType,
+      args: {
+        firstName: { type: GraphQLString },
+        lastName: { type: GraphQLString },
+        sex: { type: GraphQLBoolean },
+        birthDate: { type: GraphQLFloat },
+        phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, { firstName, lastName, sex, birthDate, phoneNumber }) {
+        return Users.findOneAndUpdate(
+          { phoneNumber },
+          {
+            $set: {
+              firstName: firstName,
+              lastName: lastName,
+              sex: sex,
+              birthDate: birthDate,
+              phoneNumber: phoneNumber,
+            },
+          }
+        );
+      },
+    },
   },
 });
 
 module.exports = new GraphQLSchema({
   query: Query,
+  mutation: Mutation,
 });

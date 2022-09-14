@@ -26,4 +26,4 @@ dbConnection.once("open", () => console.log("Connected to DB"));
 app.listen(4000, (err) =>
   err ? console.log(err) : console.log("server started on port 5000")
 );
-    
+     
