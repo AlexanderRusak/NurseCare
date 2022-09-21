@@ -90,7 +90,7 @@ const Query = new GraphQLObjectType({
     usersCV: {
       type: new GraphQLList(UserType),
       resolve(parent, args) {
-        return Users.find({ cv: { $ne: null } });
+        return Nurses.find({ cv: { $ne: null } });
       },
     },
   },
