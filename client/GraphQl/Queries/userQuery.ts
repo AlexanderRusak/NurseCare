@@ -7,17 +7,23 @@ export interface User {
     lastName: string;
     phoneNumber: string;
     sex: boolean;
-    birthDate: number
+    birthDate: string
 }
 
 export interface UserPhoneNumber {
     phoneNumber: string
 }
+export interface UserData {
+    user: User
+}
 
 export const GET_USER = gql`
   query User($phoneNumber:String!) {
     user(phoneNumber:$phoneNumber) {
-        cv
+        cv{
+            secondName
+            info
+        }
         firstName
         lastName
         phoneNumber

@@ -25,7 +25,7 @@ const UserType = new GraphQLObjectType({
     lastName: { type: new GraphQLNonNull(GraphQLString) },
     phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
     sex: { type: new GraphQLNonNull(GraphQLBoolean) },
-    birthDate: { type: new GraphQLNonNull(GraphQLFloat) },
+    birthDate: { type: new GraphQLNonNull(GraphQLString) },
   }),
 });
 
@@ -88,7 +88,7 @@ const Query = new GraphQLObjectType({
       },
     },
     usersCV: {
-      type: new GraphQLList(UserType),
+      type: NurseType,
       resolve(parent, args) {
         return Nurses.find({ cv: { $ne: null } });
       },
@@ -105,7 +105,7 @@ const Mutation = new GraphQLObjectType({
         firstName: { type: new GraphQLNonNull(GraphQLString) },
         lastName: { type: new GraphQLNonNull(GraphQLString) },
         sex: { type: new GraphQLNonNull(GraphQLBoolean) },
-        birthDate: { type: new GraphQLNonNull(GraphQLFloat) },
+        birthDate: { type: new GraphQLNonNull(GraphQLString) },
         phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, { birthDate, sex, lastName, firstName, phoneNumber }) {
@@ -158,7 +158,7 @@ const Mutation = new GraphQLObjectType({
         firstName: { type: GraphQLString },
         lastName: { type: GraphQLString },
         sex: { type: GraphQLBoolean },
-        birthDate: { type: GraphQLFloat },
+        birthDate: { type: GraphQLString },
         phoneNumber: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, { firstName, lastName, sex, birthDate, phoneNumber }) {
