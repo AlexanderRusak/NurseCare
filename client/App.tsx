@@ -9,27 +9,21 @@
  */
 
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
+import {NavigationContainer} from '@react-navigation/native';
 import React, {type PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import { Hoc } from './components/Hoc';
+import {Hoc} from './components/Hoc';
+import { MainScreen } from './screens/MainScreen';
 
 const client = new ApolloClient({
-  uri: 'http://10.42.0.129:4000/graphql',
-  cache: new InMemoryCache()
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
 });
-
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <Hoc/>
+      <NavigationContainer>
+        <MainScreen />
+      </NavigationContainer>
     </ApolloProvider>
   );
 };

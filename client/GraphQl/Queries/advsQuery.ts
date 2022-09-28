@@ -13,7 +13,7 @@ export interface AdvsData {
 
 export const GET_ADVS = gql`
   query Advs {
-    news {
+    advs {
       id
       title
       imageLink

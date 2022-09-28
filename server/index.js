@@ -9,13 +9,14 @@ const app = express();
 mongoose.connect(
   "mongodb+srv://rusakAlexanderDB:Qq8280431@cluster0.bbsrtsy.mongodb.net/nurse?retryWrites=true&w=majority"
 );
-
-app.use(cors());
 app.use(
   "/graphql",
-  graphqlHTTP({
-    schema: user,
-    graphiql: true,
+  graphqlHTTP((req,res,err) => {
+    console.log(err); 
+    return {
+      schema: user,
+      graphiql: true,
+    };
   })
 );
 
@@ -26,4 +27,3 @@ dbConnection.once("open", () => console.log("Connected to DB"));
 app.listen(4000, (err) =>
   err ? console.log(err) : console.log("server started on port 4000")
 );
-     

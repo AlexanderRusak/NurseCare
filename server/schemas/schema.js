@@ -63,39 +63,6 @@ const AdvType = new GraphQLObjectType({
   }),
 });
 
-const Query = new GraphQLObjectType({
-  name: "Query",
-  fields: {
-    user: {
-      type: UserType,
-      args: {
-        phoneNumber: { type: GraphQLString },
-      },
-      resolve(parent, { phoneNumber }) {
-        return Users.findOne({ phoneNumber });
-      },
-    },
-    news: {
-      type: new GraphQLList(NewsType),
-      resolve(parent, args) {
-        return News.find({});
-      },
-    },
-    advs: {
-      type: new GraphQLList(AdvType),
-      resolve(parent, args) {
-        return Advs.find({});
-      },
-    },
-    usersCV: {
-      type: NurseType,
-      resolve(parent, args) {
-        return Nurses.find({ cv: { $ne: null } });
-      },
-    },
-  },
-});
-
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
@@ -110,14 +77,13 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, { birthDate, sex, lastName, firstName, phoneNumber }) {
         const user = new Users({
-          birthDate,
-          cv: null,
           firstName,
           lastName,
           sex,
+          birthDate,
           phoneNumber,
+          cv: null,
         });
-
         return user.save();
       },
     },
@@ -152,7 +118,7 @@ const Mutation = new GraphQLObjectType({
         );
       },
     },
-    editData: {
+    editUser: {
       type: UserType,
       args: {
         firstName: { type: GraphQLString },
@@ -174,6 +140,40 @@ const Mutation = new GraphQLObjectType({
             },
           }
         );
+      },
+    },
+  },
+});
+
+const Query = new GraphQLObjectType({
+  name: "Query",
+  fields: {
+    user: {
+      type: UserType,
+      args: {
+        phoneNumber: { type: GraphQLString },
+      },
+      resolve(parent, { phoneNumber }) {
+        console.log(phoneNumber);
+        return Users.findOne({ phoneNumber });
+      },
+    },
+    news: {
+      type: new GraphQLList(NewsType),
+      resolve(parent, args) {
+        return News.find({});
+      },
+    },
+    advs: {
+      type: new GraphQLList(AdvType),
+      resolve(parent, args) {
+        return Advs.find({});
+      },
+    },
+    usersCV: {
+      type: NurseType,
+      resolve(parent, args) {
+        return Nurses.find({ cv: { $ne: null } });
       },
     },
   },
