@@ -5,7 +5,7 @@ import {Alert, Button, Text, View} from 'react-native';
 import {ADD_CV, User_CV_Data} from '../GraphQl/Mutations/addCVMutation';
 import {ADD_USER, UserInputData} from '../GraphQl/Mutations/addUserMutation';
 import {EDIT_USER, UserEditData} from '../GraphQl/Mutations/editDataMutation';
-import {User, UserData, UserPhoneNumber} from '../GraphQl/Queries/user';
+import {User, UserData,} from '../GraphQl/Queries/usersQuery';
 import {GET_USER} from '../GraphQl/Queries/userQuery';
 
 export const Hoc = () => {
@@ -44,7 +44,7 @@ export const Hoc = () => {
     });
   };
 
-  console.log(data);
+
 
   return (
     <View>

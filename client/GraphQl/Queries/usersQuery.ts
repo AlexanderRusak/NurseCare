@@ -10,19 +10,21 @@ export interface User {
     birthDate: string
 }
 
-export interface UserPhoneNumber {
-    phoneNumber: string
-}
 export interface UserData {
-    user: User
+    users: User[]
 }
 
-export const GET_USER = gql`
-  query User($phoneNumber:String!) {
-    user(phoneNumber:$phoneNumber) {
+export const GET_USERS = gql`
+  query Users{
+    users {
         cv{
-            secondName
-            info
+            secondName,
+            address,
+            info,
+            docScan,
+            idScan,
+            docNumber,
+            isValidated,
         }
         firstName
         lastName

@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 
 export interface Nurse {
-    secondName: string
-    address: string
-    info: string
-    docScan: string
-    idScan: string
-    isValidated: boolean
+  secondName: string
+  address: string
+  info: string
+  docScan: string
+  idScan: string
+  docNumber: string
+  isValidated: boolean
 }
 
 
@@ -19,6 +20,7 @@ export const GET_USER_CV = gql`
         info
         docScan
         idScan
+        docNumber
         isValidated
     }
   }

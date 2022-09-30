@@ -1,12 +1,26 @@
-import React from 'react';
-import {Text, View, StyleSheet, Slider} from 'react-native';
+import {useQuery} from '@apollo/client';
+import React, {useEffect} from 'react';
+import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 import {AdvertisementComponent} from '../components/advertisement/AdvertisementComponent';
+import {CardItem} from '../components/card/CardItem';
+import {ListItemComponent} from '../components/list/ListItemComponent';
+import {GET_USERS, UserData} from '../GraphQl/Queries/usersQuery';
 
 export const HomeScreen = () => {
+  const {data: users, loading, error} = useQuery<UserData>(GET_USERS);
+
+  console.log(users?.users, error);
+
   return (
     <View style={styles.container}>
       <AdvertisementComponent />
-      <Text>Home</Text>
+      {!loading && !!users?.users ? (
+        <ListItemComponent
+          data={users?.users.filter(nurse => nurse.cv?.isValidated)}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
     </View>
   );
 };

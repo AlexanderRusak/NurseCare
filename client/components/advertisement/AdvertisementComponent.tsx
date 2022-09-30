@@ -5,9 +5,12 @@ import {mainColor} from '../../theme/themeConstants';
 import {AdvertisementComponentItem} from './AdvertisementItem';
 
 export const AdvertisementComponent = () => {
+  const advItems = Array(5);
+
   return (
     <View style={styles.container}>
       <Swiper
+        autoplay
         activeDotStyle={{
           top: 20,
         }}
@@ -15,8 +18,11 @@ export const AdvertisementComponent = () => {
           top: 20,
         }}
         activeDotColor={mainColor}>
-        <AdvertisementComponentItem />
-        <AdvertisementComponentItem />
+          <AdvertisementComponentItem />
+          <AdvertisementComponentItem />
+          <AdvertisementComponentItem />
+          <AdvertisementComponentItem />
+          <AdvertisementComponentItem />
       </Swiper>
     </View>
   );

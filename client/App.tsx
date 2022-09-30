@@ -15,7 +15,7 @@ import {Hoc} from './components/Hoc';
 import { MainScreen } from './screens/MainScreen';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://10.42.0.129:4001/graphql',
   cache: new InMemoryCache(),
 });
 const App = () => {

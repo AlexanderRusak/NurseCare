@@ -4,3 +4,4 @@ export const HOMESCREEN = 'HOMESCREEN';
 export const SEARCHSCREEN = 'SEARCHSCREEN';
 export const NEWSSCREEN = 'NEWSSCREEN';
 export const USERSCREEN = 'USERSCREEN';
+export const CARDSCREEN = 'CARDSCREEN';
