@@ -36,7 +36,8 @@ const NurseType = new GraphQLObjectType({
     address: { type: new GraphQLNonNull(GraphQLString) },
     info: { type: GraphQLString },
     docScan: { type: new GraphQLNonNull(GraphQLString) },
-    idScan: { type: GraphQLString },
+    idScan: { type: new GraphQLNonNull(GraphQLString) },
+    docNumber: { type: new GraphQLNonNull(GraphQLString) },
     isValidated: { type: new GraphQLNonNull(GraphQLBoolean) },
   }),
 });
@@ -95,11 +96,12 @@ const Mutation = new GraphQLObjectType({
         address: { type: new GraphQLNonNull(GraphQLString) },
         info: { type: GraphQLString },
         docScan: { type: new GraphQLNonNull(GraphQLString) },
-        idScan: { type: GraphQLString },
+        idScan: { type: new GraphQLNonNull(GraphQLString) },
+        docNumber: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(
         parent,
-        { phoneNumber, secondName, address, info, docScan, idScan }
+        { phoneNumber, secondName, address, info, docScan, idScan, docNumber }
       ) {
         return Users.findOneAndUpdate(
           { phoneNumber },
@@ -111,6 +113,7 @@ const Mutation = new GraphQLObjectType({
                 info,
                 docScan,
                 idScan,
+                docNumber,
                 isValidated: false,
               },
             },
@@ -174,6 +177,12 @@ const Query = new GraphQLObjectType({
       type: NurseType,
       resolve(parent, args) {
         return Nurses.find({ cv: { $ne: null } });
+      },
+    },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve() {
+        return Users.find({ cv: { $ne: null } });
       },
     },
   },

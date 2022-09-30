@@ -6,6 +6,7 @@ const nursesSchema = new Schema({
   address: String,
   info: String,
   docScan: String,
+  docNumber:String,
   idScan: String,
   isValidated: Boolean,
 });
