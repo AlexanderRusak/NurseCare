@@ -1,13 +1,27 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {useCallback} from 'react';
+import {StyleSheet, Text, View, Linking} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Icon} from '../ui/Icon';
 
 interface CardInfoProps {
   header: string;
-  info: string;
+  info?: string;
   position?: string;
   diploma?: string;
+  phoneNumber?: string;
 }
 
-export const CardInfo = ({header, info, diploma, position}: CardInfoProps) => {
+export const CardInfo = ({
+  header,
+  info,
+  diploma,
+  position,
+  phoneNumber,
+}: CardInfoProps) => {
+  const linkingHandler = useCallback(() => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  }, [phoneNumber]);
+
   return (
     <View style={styles.container}>
       <Text numberOfLines={2} style={styles.header}>
@@ -15,12 +29,23 @@ export const CardInfo = ({header, info, diploma, position}: CardInfoProps) => {
       </Text>
       <Text style={styles.position}>{position}</Text>
       <Text numberOfLines={3} style={styles.info}>
-        {info}
+        {info || 'Вывод из запоя'}
       </Text>
-      <View style={styles.diplomaContainer}>
-        <Text>Диплом:</Text>
-        <Text style={styles.diploma}> {diploma}</Text>
-      </View>
+      {!!diploma ? (
+        <View style={styles.diplomaContainer}>
+          <Text>Диплом:</Text>
+          <Text style={styles.diploma}> {diploma}</Text>
+        </View>
+      ) : null}
+      {!!phoneNumber ? (
+        <TouchableOpacity
+          onPress={linkingHandler}
+          style={styles.phoneContainer}>
+          <Text>Контакты:</Text>
+          <Text style={styles.phone}> {phoneNumber}</Text>
+          <Icon iconFont="FontAwesome" iconName="phone" styles={styles.icon} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
@@ -46,10 +71,26 @@ const styles = StyleSheet.create({
   diploma: {
     fontWeight: '600',
   },
-  diplomaContainer:{
+  diplomaContainer: {
     marginTop: 5,
-    flexDirection:'row',
-    justifyContent:'flex-start',
-    alignItems:'center'
-  }
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  phoneContainer: {
+    height: 30,
+    marginTop: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  icon: {
+    color: 'green',
+    margin: 5,
+    fontSize: 20,
+  },
+  phone: {
+    fontWeight: '600',
+    color: 'green',
+  },
 });

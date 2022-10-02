@@ -2,9 +2,16 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TabsScreen} from './TabsScreen';
 import {GeolocationScreen} from './GeolocationScreen';
-import {CARDSCREEN, GEOLOCATION, HOMESCREEN, TABSSCREEN} from './ScreenNames';
+import {
+  CARDSCREEN,
+  GEOLOCATION,
+  HOMESCREEN,
+  REGISTRATION_NEW_NURSE,
+  TABSSCREEN,
+} from './ScreenNames';
 import {CardScreen} from './CardScreen';
-import { User } from '../GraphQl/Queries/userQuery';
+import {User} from '../GraphQl/Queries/userQuery';
+import {RegistrationNewNurse} from './RegistrationNewNurse';
 
 export type StackParamList = {
   [TABSSCREEN]: undefined;
@@ -13,6 +20,7 @@ export type StackParamList = {
   [CARDSCREEN]: {
     user: User;
   };
+  [REGISTRATION_NEW_NURSE]: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -38,6 +46,13 @@ export const MainScreen = () => {
         }}
         name={CARDSCREEN}
         component={CardScreen}
+      />
+      <Stack.Screen
+        /*      options={{
+          headerBackTitleVisible: false,
+        }} */
+        name={REGISTRATION_NEW_NURSE}
+        component={RegistrationNewNurse}
       />
     </Stack.Navigator>
   );

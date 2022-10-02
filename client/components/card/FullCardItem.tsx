@@ -7,6 +7,7 @@ import {CARDSCREEN} from '../../screens/ScreenNames';
 import {mainColor} from '../../theme/themeConstants';
 import {Icon} from '../ui/Icon';
 import {CardInfo} from './CardInfo';
+import {Info} from '../ui/Info';
 
 interface FullCardItemProps {
   user: User;
@@ -37,52 +38,84 @@ export const FullCardItem = ({user}: FullCardItemProps) => {
             uri: 'https://us.123rf.com/450wm/domenicogelermo/domenicogelermo1909/domenicogelermo190900265/129438391-front-portrait-of-the-woman-with-beauty-face-isolated.jpg?ver=6',
           }}
         />
-      {/*   <TouchableOpacity onPress={toggleStarthandler}>
-          <Icon
-            size={50}
-            styles={{
-              ...styles.icon,
-              color: star === 'star' ? '#F6BE00' : '#000',
-            }}
-            iconFont="FontAwesome"
-            iconName={star}
-          />
-        </TouchableOpacity> */}
+        <CardInfo
+          header={`${firstName} ${lastName}`}
+          position={cv?.secondName}
+          phoneNumber={phoneNumber}
+        />
       </View>
-      <CardInfo
-        header={`${firstName} ${lastName}`}
-        position={cv?.secondName}
-        diploma={cv?.docNumber}
-        info={cv?.info || ''}
-      />
+      <View style={styles.infoContainer}>
+        <Text style={styles.info} numberOfLines={6}>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+          maiores. Tempore possimus officia repellat aliquid corporis magnam
+          itaque tempora illo? Odit unde totam adipisci repudiandae consectetur
+          sapiente, deleniti odio veritatis.
+        </Text>
+        <View style={styles.diplomaInfoContainer}>
+          <Info header="Сертификат специалиста" text={cv!.docNumber} />
+          <Info header="Дата выдачи" text={cv!.docNumber} />
+          <Info header="Организация выдачи" text={cv!.docNumber} />
+        </View>
+      </View>
+      {/*  <View style={styles.shortContainer}>
+        <View style={styles.imageContainer}>
+         
+        </View>
+     
+      </View>
+      <View style={styles.fullCardInfo}>
+        <Text>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum,
+          maiores. Tempore possimus officia repellat aliquid corporis magnam
+          itaque tempora illo? Odit unde totam adipisci repudiandae consectetur
+          sapiente, deleniti odio veritatis.
+        </Text>
+      </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     margin: 10,
-    height: '60%',
     borderWidth: 2,
     borderColor: mainColor,
   },
   imageContainer: {
-    width: '45%',
-    height:'45%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    marginTop:10,
+    height: '30%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
+
   image: {
-    margin: 5,
-    width: '100%',
-    height: '80%',
+    margin: 10,
+    width: '40%',
+    height: '100%',
     resizeMode: 'cover',
     borderWidth: 2,
     borderColor: mainColor,
     borderRadius: 100,
   },
+  infoContainer: {
+    margin: 20,
+    justifyContent:'center'
+  },
+  info: {
+    fontWeight: '500',
+    fontSize:18
+  },
+  diplomaInfoContainer: {
+    marginTop:10
+  },
+  /*
   icon: {
     alignSelf: 'center',
   },
+  shortContainer: {
+    flexDirection: 'row',
+  },
+  fullCardInfo: {
+    backgroundColor: 'red',
+  }, */
 });
