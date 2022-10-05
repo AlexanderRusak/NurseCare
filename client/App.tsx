@@ -15,9 +15,10 @@ import {Hoc} from './components/Hoc';
 import { MainScreen } from './screens/MainScreen';
 
 
-import YaMap from 'react-native-yamap';
+import YaMap, { Geocoder } from 'react-native-yamap';
 
 YaMap.init('0c5cc79b-5bbc-4240-965f-c6cfda32b0cd');
+Geocoder.init('1032f73f-dda8-4cdc-8307-39c0083f7e93');
 
 const client = new ApolloClient({
   uri: 'http://10.42.0.129:4001/graphql',

@@ -22,7 +22,7 @@ export const GeolocationComponent = () => {
   return (
     <View style={styles.container}>
       <View style={styles.geoLocationContainer}>
-        <Text>Geolocation Addres</Text>
+        <Text>Geolocation Address</Text>
         <TouchableOpacity
           onPress={geolocationButtonHanlde}
           style={styles.editButton}>
