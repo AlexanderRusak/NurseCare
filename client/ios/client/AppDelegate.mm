@@ -15,6 +15,8 @@
 #import <ReactCommon/RCTTurboModuleManager.h>
 
 #import <react/config/ReactNativeConfig.h>
+#import <YandexMapsMobile/YMKMapKitFactory.h>
+
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
@@ -57,6 +59,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
+  [YMKMapKit setApiKey:@"0c5cc79b-5bbc-4240-965f-c6cfda32b0cd"];
+
   return YES;
 }
 

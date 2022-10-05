@@ -14,6 +14,11 @@ import React, {type PropsWithChildren} from 'react';
 import {Hoc} from './components/Hoc';
 import { MainScreen } from './screens/MainScreen';
 
+
+import YaMap from 'react-native-yamap';
+
+YaMap.init('0c5cc79b-5bbc-4240-965f-c6cfda32b0cd');
+
 const client = new ApolloClient({
   uri: 'http://10.42.0.129:4001/graphql',
   cache: new InMemoryCache(),

@@ -6009,6 +6009,11 @@ react-native-vector-icons@^9.2.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
+react-native-yamap@^4.1.14:
+  version "4.1.14"
+  resolved "https://registry.yarnpkg.com/react-native-yamap/-/react-native-yamap-4.1.14.tgz#d746649941859c158085bb05702159e1003ea112"
+  integrity sha512-oe29HEihcxS2YZ5lZmQ4C7gxb5HDzkdw9KRsDJ4btHLdlczzlRS55W/0cp19Vf44eyVsPz4PZrLiU3+qQ218sA==
+
 react-native@0.70.1:
   version "0.70.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.70.1.tgz"

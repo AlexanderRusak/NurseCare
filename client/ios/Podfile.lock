@@ -381,7 +381,11 @@ PODS:
     - React-RCTImage
   - RNVectorIcons (9.2.0):
     - React-Core
+  - RNYamap (4.1.14):
+    - React
+    - YandexMapsMobile (= 4.1.0-full)
   - SocketRocket (0.6.0)
+  - YandexMapsMobile (4.1.0-full)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -449,6 +453,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - RNYamap (from `../node_modules/react-native-yamap`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -467,6 +472,7 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - SocketRocket
+    - YandexMapsMobile
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -544,6 +550,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  RNYamap:
+    :path: "../node_modules/react-native-yamap"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -598,7 +606,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: 4defbd70b2faf3d6761b82fa7880285241762cb0
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
+  RNYamap: d26716e50bc56d6815d2b412c8348d760c391a63
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  YandexMapsMobile: c145ffd0dbdbb8079fca1eb6706cf9e751b07809
   Yoga: 6c8252e38d65aa387daee699eacf027e055e0b31
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
