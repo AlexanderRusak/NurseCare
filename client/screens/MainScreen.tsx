@@ -12,6 +12,7 @@ import {
 import {CardScreen} from './CardScreen';
 import {User} from '../GraphQl/Queries/userQuery';
 import {RegistrationNewNurse} from './RegistrationNewNurse';
+import {useSelector} from 'react-redux';
 
 export type StackParamList = {
   [TABSSCREEN]: undefined;
@@ -26,6 +27,9 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator();
 
 export const MainScreen = () => {
+  const store = useSelector((store: any) => store);
+  console.log(store);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -35,7 +39,9 @@ export const MainScreen = () => {
       />
       <Stack.Screen
         options={{
-          headerBackVisible: false,
+          headerTitle:
+            GEOLOCATION.charAt(0).toUpperCase() +
+            GEOLOCATION.toLowerCase().slice(1),
         }}
         name={GEOLOCATION}
         component={GeolocationScreen}
