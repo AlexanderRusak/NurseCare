@@ -61,6 +61,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   [self.window makeKeyAndVisible];
 
   [YMKMapKit setApiKey:@"0c5cc79b-5bbc-4240-965f-c6cfda32b0cd"];
+  [YMKMapKit mapKit];
 
   return YES;
 }

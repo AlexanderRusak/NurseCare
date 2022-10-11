@@ -13,6 +13,7 @@ import {CardScreen} from './CardScreen';
 import {User} from '../GraphQl/Queries/userQuery';
 import {RegistrationNewNurse} from './RegistrationNewNurse';
 import {useSelector} from 'react-redux';
+import { IStore } from '../redux';
 
 export type StackParamList = {
   [TABSSCREEN]: undefined;
@@ -27,9 +28,6 @@ export type StackParamList = {
 const Stack = createNativeStackNavigator();
 
 export const MainScreen = () => {
-  const store = useSelector((store: any) => store);
-  console.log(store);
-
   return (
     <Stack.Navigator>
       <Stack.Screen

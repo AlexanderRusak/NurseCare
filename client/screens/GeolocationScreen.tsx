@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Platform, StyleSheet, Text, View} from 'react-native';
 import YaMap, {Circle, Geocoder} from 'react-native-yamap';
 import {StackNavigation} from '../interfaces/StackNavigation';
@@ -8,13 +8,17 @@ import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
 import {getPermission} from '../map/permission';
 import {mainColor} from '../theme/themeConstants';
 import {MapMenu} from '../map/MapMenu';
+import {useSelector} from 'react-redux';
+import {IStore, store} from '../redux';
 
 export const GeolocationScreen = () => {
+  const {coordinates} = useSelector((store: IStore) => store.location);
+
   const {navigate} = useNavigation<StackNavigation>();
 
-  const [currentPosition, setCurrentPosition] = useState<GeoPosition | null>(
-    null,
-  );
+  const [currentPosition, setCurrentPosition] = useState<
+    [number, number] | null
+  >(null);
   const [hasPermission, setPermission] = useState(false);
 
   const hasPermissionAsync = useCallback(async () => {
@@ -24,44 +28,49 @@ export const GeolocationScreen = () => {
 
   useEffect(() => {
     hasPermissionAsync();
-    hasPermission &&
-      Geolocation.getCurrentPosition(
-        position => {
-          setCurrentPosition(position);
-        },
-        err => {
-          console.log(err);
-        },
-        {enableHighAccuracy: false, timeout: 15000, maximumAge: 10000},
-      );
-  }, [hasPermissionAsync, hasPermission]);
+    console.log(coordinates, 'use');
 
-  return (
-    <View style={styles.container}>
-      {currentPosition ? (
-        <>
-          <YaMap
-            initialRegion={{
-              lat: currentPosition.coords.latitude,
-              lon: currentPosition.coords.longitude,
-              zoom: 20,
-            }}
-            showUserPosition
-            style={styles.map}>
-            {/*           <Circle
+    hasPermission && !coordinates.length
+      ? Geolocation.getCurrentPosition(
+          ({coords}) => {
+            setCurrentPosition([coords.latitude, coords.longitude]);
+          },
+          err => {
+            console.log(err, 'error');
+          },
+          {enableHighAccuracy: false, timeout: 15000, maximumAge: 10000},
+        )
+      : setCurrentPosition(coordinates as [number, number]);
+  }, [hasPermissionAsync, hasPermission, coordinates]);
+
+  console.log(currentPosition, 'pos');
+
+  const mapComponent = useMemo(() => {
+    return !!currentPosition ? (
+      <>
+        <YaMap
+          initialRegion={{
+            lat: currentPosition[1],
+            lon: currentPosition[0],
+            zoom: 18,
+          }}
+          showUserPosition
+          style={styles.map}>
+          <Circle
             center={{
-              lat: currentPosition.coords.latitude,
-              lon: currentPosition.coords.longitude,
+              lat: currentPosition[1],
+              lon: currentPosition[0],
             }}
             fillColor={mainColor}
-            radius={3000}
-          /> */}
-          </YaMap>
-          <MapMenu />
-        </>
-      ) : null}
-    </View>
-  );
+            radius={50}
+          />
+        </YaMap>
+        <MapMenu />
+      </>
+    ) : null;
+  }, [currentPosition]);
+
+  return <View style={styles.container}>{mapComponent}</View>;
 };
 
 const styles = StyleSheet.create({

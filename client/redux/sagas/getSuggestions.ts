@@ -1,18 +1,20 @@
-import { call, SagaReturnType, select, takeLeading } from "redux-saga/effects";
-import { IStore } from "..";
+import { call, put, SagaReturnType, select, takeLeading } from "redux-saga/effects";
+import { IStore, store } from "..";
 import { geoSuggestion } from "../../map/GeoSuggestion";
-import { ADD_SEARCH_STRING } from "../types";
+import { getQuerySelector } from "../selectors/getQuerySelector";
+import { ADD_SEARCH_STRING, GET_SUGGESTIONS } from "../types";
 
 
 async function getSuggestion(query: string) {
-    const suggestions = await geoSuggestion(query);
-    console.log(suggestions,'333333');
-    return suggestions
+    const data = await geoSuggestion(query);
+    return data
 }
 
-export function* getSuggestionsSaga(query:string) {
-    console.log(query,'dddddz');
+export function* getSuggestionsSaga(query: string) {
     const suggestions: SagaReturnType<typeof getSuggestion> = yield call(getSuggestion, query);
-    console.log(suggestions,'2222');
+    yield put({
+        type: GET_SUGGESTIONS,
+        payload: suggestions
+    });
 }
 

@@ -1,9 +1,10 @@
 import { State } from "react-native-gesture-handler"
+import { YamapSuggest } from "react-native-yamap"
 import { ADD_SEARCH_STRING, GET_SUGGESTIONS } from "../types"
 
 
 export interface SugggestionProps {
-    suggestions: [],
+    suggestions: YamapSuggest[],
     searchString: string
 }
 

@@ -76,7 +76,7 @@ const hasLocationPermission = async () => {
 
 export const getPermission = async () => {
     const hasPermission = await hasLocationPermission();
-    console.log(hasPermission);
+    console.log(hasPermission, 'permission');
     
     return hasPermission
 }
