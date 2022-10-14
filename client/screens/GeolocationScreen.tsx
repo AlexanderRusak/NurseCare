@@ -1,7 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Button, Platform, StyleSheet, Text, View} from 'react-native';
-import YaMap, {Circle, Geocoder} from 'react-native-yamap';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  Button,
+  NativeSyntheticEvent,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import YaMap, {Circle, Geocoder, Point} from 'react-native-yamap';
 import {StackNavigation} from '../interfaces/StackNavigation';
 import {HOMESCREEN} from './ScreenNames';
 import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
@@ -9,12 +22,16 @@ import {getPermission} from '../map/permission';
 import {mainColor} from '../theme/themeConstants';
 import {MapMenu} from '../map/MapMenu';
 import {useSelector} from 'react-redux';
-import {IStore, store} from '../redux';
+import {IStore} from '../redux';
+import {Coordinates, CoordinatesContext} from '../context/CoordinatesContext';
+import {CurrentLocationButton} from '../map/CurrentLocationButton';
 
 export const GeolocationScreen = () => {
   const {coordinates} = useSelector((store: IStore) => store.location);
+  const {update,coordinatesData} = useContext(Coordinates);
 
-  const {navigate} = useNavigation<StackNavigation>();
+  console.log(coordinatesData);
+  
 
   const [currentPosition, setCurrentPosition] = useState<
     [number, number] | null
@@ -26,10 +43,23 @@ export const GeolocationScreen = () => {
     setPermission(hasPermission);
   }, []);
 
+  const mapClickHandle = useCallback(
+    async ({nativeEvent}: NativeSyntheticEvent<Point>) => {
+      setCurrentPosition([nativeEvent.lat, nativeEvent.lon]);
+      const {response} = await Geocoder.geocode({
+        lat: nativeEvent.lat,
+        lon: nativeEvent.lon,
+      });
+      update?.({
+        coordinates: [nativeEvent.lat, nativeEvent.lon],
+        title: response.GeoObjectCollection.featureMember[0].GeoObject.name,
+      });
+    },
+    [currentPosition, coordinates],
+  );
+
   useEffect(() => {
     hasPermissionAsync();
-    console.log(coordinates, 'use');
-
     hasPermission && !coordinates.length
       ? Geolocation.getCurrentPosition(
           ({coords}) => {
@@ -43,32 +73,34 @@ export const GeolocationScreen = () => {
       : setCurrentPosition(coordinates as [number, number]);
   }, [hasPermissionAsync, hasPermission, coordinates]);
 
-  console.log(currentPosition, 'pos');
-
   const mapComponent = useMemo(() => {
-    return !!currentPosition ? (
-      <>
-        <YaMap
-          initialRegion={{
-            lat: currentPosition[1],
-            lon: currentPosition[0],
-            zoom: 18,
-          }}
-          showUserPosition
-          style={styles.map}>
-          <Circle
-            center={{
-              lat: currentPosition[1],
-              lon: currentPosition[0],
+    return !!currentPosition?.length ? (
+        <>
+          <YaMap
+            onMapPress={mapClickHandle}
+            initialRegion={{
+              lat: currentPosition[0],
+              lon: currentPosition[1],
+              zoom: 18,
             }}
-            fillColor={mainColor}
-            radius={50}
-          />
-        </YaMap>
-        <MapMenu />
-      </>
+            showUserPosition
+            style={styles.map}>
+            <Circle
+              center={{
+                lat: currentPosition[0],
+                lon: currentPosition[1],
+              }}
+              fillColor={mainColor}
+              radius={50}
+            />
+          </YaMap>
+          <React.Fragment>
+            <MapMenu />
+            <CurrentLocationButton />
+          </React.Fragment>
+        </>
     ) : null;
-  }, [currentPosition]);
+  }, [currentPosition, coordinates]);
 
   return <View style={styles.container}>{mapComponent}</View>;
 };

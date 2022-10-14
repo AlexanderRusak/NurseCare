@@ -21,6 +21,10 @@ export const ExpandableSearchMenu = ({}: ExpandableSearchMenuProps) => {
     setSearchString(text);
   }, []);
 
+  const clearTextHandler = useCallback(() => {
+    setSearchString('');
+  }, []);
+
   useEffect(() => {
     dispatch({
       type: ADD_SEARCH_STRING,
@@ -36,9 +40,20 @@ export const ExpandableSearchMenu = ({}: ExpandableSearchMenuProps) => {
           onChangeText={changeTextHandler}
           keyboardType="default"
           style={styles.input}
+          value={searchString}
         />
+        {debounceValue ? (
+          <Icon
+            styles={styles.iconClose}
+            iconFont="Ionicons"
+            iconName="close"
+            onPress={clearTextHandler}
+          />
+        ) : null}
       </View>
-      <SuggestionListComponent suggestions={suggestions} />
+      {!!debounceValue ? (
+        <SuggestionListComponent suggestions={suggestions} />
+      ) : null}
     </>
   );
 };
@@ -65,5 +80,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     height: '100%',
     padding: 10,
+  },
+  iconClose: {
+    color: mainColor,
+    marginLeft: -10,
   },
 });

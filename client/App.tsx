@@ -16,6 +16,8 @@ import {MainScreen} from './screens/MainScreen';
 import YaMap, {Geocoder} from 'react-native-yamap';
 import {Provider} from 'react-redux';
 import {store} from './redux';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { CoordinatesContext } from './context/CoordinatesContext';
 
 YaMap.init('0c5cc79b-5bbc-4240-965f-c6cfda32b0cd');
 Geocoder.init('1032f73f-dda8-4cdc-8307-39c0083f7e93');
@@ -26,13 +28,17 @@ const client = new ApolloClient({
 });
 const App = () => {
   return (
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-        <NavigationContainer>
-          <MainScreen />
-        </NavigationContainer>
-      </ApolloProvider>
-    </Provider>
+    <SafeAreaProvider>
+      <CoordinatesContext>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <NavigationContainer>
+            <MainScreen />
+          </NavigationContainer>
+        </ApolloProvider>
+      </Provider>
+      </CoordinatesContext>
+    </SafeAreaProvider>
   );
 };
 
