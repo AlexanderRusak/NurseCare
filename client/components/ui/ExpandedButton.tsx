@@ -1,44 +1,29 @@
 import {useNavigation} from '@react-navigation/native';
-import {useCallback, useMemo, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useCallback, useMemo, useState} from 'react';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ScreenContainer} from 'react-native-screens';
 import {StackNavigation} from '../../interfaces/StackNavigation';
 import {REGISTRATION_NEW_NURSE} from '../../screens/ScreenNames';
 import {mainColor} from '../../theme/themeConstants';
 import {Icon} from './Icon';
 
-interface ExpandedButtonProps {
-  title?: string;
-}
-
-export const ExpandedButton = ({title}: ExpandedButtonProps) => {
-  const [isFull, setIsFull] = useState(false);
-
+export const ExpandedButton = () => {
   const {navigate} = useNavigation<StackNavigation>();
 
-  const registrationNewNurseHandle = useCallback(() => {
+  const registrationNewNurseHandle = () => {
     navigate(REGISTRATION_NEW_NURSE);
-  }, []);
+  };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.innerContainer}
-        onPress={registrationNewNurseHandle}>
-        <Icon styles={styles.icon} iconFont="Ionicons" iconName="add" />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={styles.innerContainer}
+      onPress={registrationNewNurseHandle}>
+      <Icon styles={styles.icon} iconFont="Ionicons" iconName="add" />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    bottom: '5%',
-    right: 10,
-    alignSelf: 'flex-end',
-  },
   innerContainer: {
     height: 60,
     width: 60,
@@ -46,15 +31,9 @@ const styles = StyleSheet.create({
     backgroundColor: mainColor,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-    elevation: 24,
+    alignSelf: 'flex-end',
+    bottom: '5%',
+    right: '5%',
   },
   icon: {
     fontSize: 40,
