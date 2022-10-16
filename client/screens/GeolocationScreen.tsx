@@ -14,7 +14,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import YaMap, {Circle, Geocoder, Point} from 'react-native-yamap';
+import YaMap, {Circle, Geocoder, Marker, Point} from 'react-native-yamap';
 import {StackNavigation} from '../interfaces/StackNavigation';
 import {HOMESCREEN} from './ScreenNames';
 import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
@@ -25,13 +25,11 @@ import {useSelector} from 'react-redux';
 import {IStore} from '../redux';
 import {Coordinates, CoordinatesContext} from '../context/CoordinatesContext';
 import {CurrentLocationButton} from '../map/CurrentLocationButton';
+import {Icon} from '../components/ui/Icon';
 
 export const GeolocationScreen = () => {
   const {coordinates} = useSelector((store: IStore) => store.location);
-  const {update,coordinatesData} = useContext(Coordinates);
-
-  console.log(coordinatesData);
-  
+  const {update, coordinatesData} = useContext(Coordinates);
 
   const [currentPosition, setCurrentPosition] = useState<
     [number, number] | null
@@ -75,30 +73,32 @@ export const GeolocationScreen = () => {
 
   const mapComponent = useMemo(() => {
     return !!currentPosition?.length ? (
-        <>
-          <YaMap
-            onMapPress={mapClickHandle}
-            initialRegion={{
+      <>
+        <YaMap
+          onMapPress={mapClickHandle}
+          initialRegion={{
+            lat: currentPosition[0],
+            lon: currentPosition[1],
+            zoom: 18,
+          }}
+          style={styles.map}>
+          <Marker
+            point={{
               lat: currentPosition[0],
               lon: currentPosition[1],
-              zoom: 18,
-            }}
-            showUserPosition
-            style={styles.map}>
-            <Circle
-              center={{
-                lat: currentPosition[0],
-                lon: currentPosition[1],
-              }}
-              fillColor={mainColor}
-              radius={50}
+            }}>
+            <Icon
+              styles={styles.marker}
+              iconFont="FontAwesome"
+              iconName="map-marker"
             />
-          </YaMap>
-          <React.Fragment>
-            <MapMenu />
-            <CurrentLocationButton />
-          </React.Fragment>
-        </>
+          </Marker>
+        </YaMap>
+        <React.Fragment>
+          <MapMenu />
+          <CurrentLocationButton />
+        </React.Fragment>
+      </>
     ) : null;
   }, [currentPosition, coordinates]);
 
@@ -116,5 +116,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+  },
+  marker: {
+    position: 'absolute',
+    paddingBottom:50,
+    color: mainColor,
+    fontSize: 50,
   },
 });

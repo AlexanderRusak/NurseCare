@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useRef} from 'react';
+import React, {useCallback, useContext, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,17 +13,23 @@ import {mainColor} from '../theme/themeConstants';
 import {ExpandableSearchMenu} from './ExpandableSearchMenu';
 import {SelectLocationComponent} from './SelectLocationComponent';
 
-interface MapMenuProps {}
 
-export const MapMenu = ({}: MapMenuProps) => {
+
+export const MapMenu = () => {
   const bottomSheet = useRef<BottomSheetRef>(null);
-
   const {coordinatesData, update} = useContext(Coordinates);
-  console.log(coordinatesData,'dddd');
+
+  useEffect(() => {
+    !!coordinatesData.coordinates
+      ? bottomSheet.current?.show()
+      : bottomSheet.current?.hide();
+  }, [coordinatesData]);
 
   const bottomSheetHandler = useCallback(() => {
-    bottomSheet.current?.show();    
-  }, [bottomSheet.current,coordinatesData]);
+    bottomSheet.current?.show();
+  }, []);
+
+
 
   const bottomSheetCloseHandler = useCallback(
     () => update?.(clearCoordinatesData),
@@ -31,7 +37,7 @@ export const MapMenu = ({}: MapMenuProps) => {
   );
 
   return (
-    <TouchableOpacity  onPress={bottomSheetHandler} style={styles.container}>
+    <TouchableOpacity onPress={bottomSheetHandler} style={styles.container}>
       <Icon styles={styles.icon} iconFont="FontAwesome" iconName="search" />
       <BottomSheet
         onCloseFinish={bottomSheetCloseHandler}

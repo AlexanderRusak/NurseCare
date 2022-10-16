@@ -157,7 +157,6 @@ const Query = new GraphQLObjectType({
         phoneNumber: { type: GraphQLString },
       },
       resolve(parent, { phoneNumber }) {
-        console.log(phoneNumber);
         return Users.findOne({ phoneNumber });
       },
     },
