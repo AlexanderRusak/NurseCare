@@ -1,31 +1,39 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleProp, StyleSheet, TextStyle, View} from 'react-native';
 import {Input as LibraryInput} from 'react-native-elements';
-import {mainColor} from '../../theme/themeConstants';
+import {dangerMainColor, mainColor} from '../../theme/themeConstants';
 import {Icon} from './Icon';
 interface InputProps {
   label?: string;
   defaultText?: string;
   placeholder?: string;
-  inputStyle?: StyleProp<TextStyle>;
+  inputStyle?: StyleProp<any>;
   labelStyle?: StyleProp<TextStyle>;
   inputContainerStyle?: StyleProp<TextStyle>;
+  errorMessageStyle?: StyleProp<TextStyle>;
   handleText: (text: string, key: string) => void;
+  required?: boolean;
+  errorMessageText?: string;
+  rows?: number;
 }
 
 export const Input = ({
   label = 'Label',
   defaultText,
-  placeholder = 'Input placeholder',
+  placeholder = label,
   inputStyle,
   labelStyle,
   inputContainerStyle,
   handleText,
+  required = false,
+  errorMessageText = '*Required',
+  errorMessageStyle,
+  rows = 1,
 }: InputProps) => {
-  const [text, setText] = useState(defaultText || '');
+  const [text, setText] = useState(defaultText || undefined);
 
   useEffect(() => {
-    handleText(text, label.replace(/\s+/g, '').toLowerCase());
+    text && handleText(text, label.replace(/\s+/g, '').toLowerCase());
   }, [text]);
 
   const changeTextHandler = useCallback((text: string) => {
@@ -36,14 +44,21 @@ export const Input = ({
     setText('');
   }, []);
 
+  const inputStyles: StyleProp<TextStyle> = useMemo(() => {
+    return inputStyle
+      ? {...inputStyle, height: 50 * rows}
+      : {...styles.defaultInputStyle, height: 50 * rows};
+  }, [rows]);
+
   return (
     <View style={styles.container}>
       <LibraryInput
+        multiline={rows > 1}
         value={text}
         label={label}
         placeholder={placeholder}
         autoCompleteType={undefined}
-        inputStyle={inputStyle || styles.defaultInputStyle}
+        inputStyle={inputStyles}
         labelStyle={labelStyle || styles.defaultInputLabelStyle}
         inputContainerStyle={
           inputContainerStyle || styles.defaultInputContainerStyle
@@ -60,6 +75,8 @@ export const Input = ({
             />
           ) : undefined
         }
+        errorMessage={required && text === '' ? errorMessageText : undefined}
+        errorStyle={errorMessageStyle || styles.error}
       />
     </View>
   );
@@ -72,7 +89,7 @@ const styles = StyleSheet.create({
   },
   defaultInputStyle: {
     color: mainColor,
-    height: 47,
+    height: 50,
   },
   defaultInputLabelStyle: {
     color: mainColor,
@@ -86,5 +103,8 @@ const styles = StyleSheet.create({
   iconClose: {
     color: mainColor,
     padding: 0,
+  },
+  error: {
+    color: dangerMainColor,
   },
 });

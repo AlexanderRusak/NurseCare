@@ -1,6 +1,7 @@
 import React, {useCallback, useRef} from 'react';
-import {Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
+import { ImagePickerComponent } from '../components/imagePicker/ImagePickerComponent';
 import {Input} from '../components/ui/Input';
 
 interface NurseData {
@@ -9,19 +10,20 @@ interface NurseData {
 }
 
 export const RegistrationNewNurse = () => {
-  const newNurseData = useRef<NurseData>({
-    firstname: undefined,
-    secondname: undefined,
-  });
+  const newNurseData = useRef<NurseData>({});
   const handleText = useCallback((text: string, key: string) => {
     newNurseData.current[key as keyof NurseData] = text;
     console.log(newNurseData.current);
   }, []);
 
   return (
-    <View>
-      <Input label="First Name" handleText={handleText} />
-      <Input label="Second Name" handleText={handleText} />
-    </View>
+    <ScrollView>
+      <Input label="Firstname" handleText={handleText} required />
+      <Input label="Lastname" handleText={handleText} required />
+      <Input label="Secondname" handleText={handleText} required />
+      <Input label="Address (City, District)" handleText={handleText} required />
+      <Input label="Specialization, Experience" handleText={handleText} required rows={3} />
+      <ImagePickerComponent/>
+    </ScrollView>
   );
 };

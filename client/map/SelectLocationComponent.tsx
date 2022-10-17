@@ -1,7 +1,7 @@
 import React, {useCallback, useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Coordinates} from '../context/CoordinatesContext';
-import {mainColor} from '../theme/themeConstants';
+import {dangerMainColor, mainColor} from '../theme/themeConstants';
 
 interface SelectLocationComponentProps {
   locationTitle: string;
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   buttonCancelContainer: {
-    backgroundColor: '#CC0202',
+    backgroundColor: dangerMainColor,
   },
   textContainer: {
     alignItems: 'center',
