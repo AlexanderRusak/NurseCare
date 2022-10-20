@@ -22,8 +22,9 @@ export const RegistrationNewNurse = () => {
       <Input label="Lastname" handleText={handleText} required />
       <Input label="Secondname" handleText={handleText} required />
       <Input label="Address (City, District)" handleText={handleText} required />
-      <Input label="Specialization, Experience" handleText={handleText} required rows={3} />
-      <ImagePickerComponent/>
+      <Input label="Specialization, Experience" handleText={handleText} required rows={2} />
+      <ImagePickerComponent title="Scan of certification or another official document"/>
+      <ImagePickerComponent title="Selfie with ID or another official document"/>
     </ScrollView>
   );
 };

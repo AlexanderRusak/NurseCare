@@ -2245,6 +2245,11 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+better-react-native-image-viewing@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/better-react-native-image-viewing/-/better-react-native-image-viewing-0.2.7.tgz#0eecb6c0f95ab79ae1c45f770c80ee12b2c8793d"
+  integrity sha512-XFpL+R0wI+cLF7S+Lpkq/rImAIT0GY53cwkqtkC+n+n61dttKhX+q7dHBZNTmzzM/aINkZNjUJsP/X5bWHyebQ==
+
 bl@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/bl/-/bl-4.1.0.tgz"
