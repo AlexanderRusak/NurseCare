@@ -27,8 +27,6 @@ export const Image: FC<ImageProps> = ({removeIconHandler, uri}) => {
     setIsVisible(!isVisible);
   }, [isVisible]);
 
-  console.log(uri);
-
   return (
     <TouchableOpacity onPress={imageIsVisibleHandler} style={styles.container}>
       <ImageView

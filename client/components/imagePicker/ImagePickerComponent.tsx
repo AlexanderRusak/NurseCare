@@ -15,23 +15,27 @@ import {Icon} from '../ui/Icon';
 import {Image} from '../ui/Image';
 import {UploadButton} from '../ui/UploadButton';
 
+export type FileUploadType = 'camera' | 'files';
 
 interface ImagePickerComponentProps {
   title: string;
+  handlePhoto: (photo?: string, key?: string) => void;
 }
 
-export type FileUploadType = 'camera' | 'files';
-
-export const ImagePickerComponent = ({title}: ImagePickerComponentProps) => {
-  const [photo, setPhoto] = useState<Asset[]>([]);
+export const ImagePickerComponent = ({
+  title,
+  handlePhoto,
+}: ImagePickerComponentProps) => {
+  const [photo, setPhoto] = useState<Asset | null>();
   const bottomSheetRef = useRef<BottomSheetRef>(null);
 
   const handleChoosePhoto = useCallback(() => {
     bottomSheetRef.current?.show();
   }, []);
 
-  const removeIconHandler = useCallback((url: string) => {
-    setPhoto([]);
+  const removeIconHandler = useCallback(() => {
+    setPhoto(null);
+    handlePhoto(undefined, title.split(' ')[0].toLowerCase());
   }, []);
 
   const handleMethodType = useCallback(async (type: FileUploadType) => {
@@ -43,18 +47,29 @@ export const ImagePickerComponent = ({title}: ImagePickerComponentProps) => {
 
     type !== 'camera'
       ? launchImageLibrary(options, response => {
-          response.assets && setPhoto(response.assets);
+          if (response.assets && response.assets[0] && response.assets[0].uri) {
+            setPhoto(response.assets[0]);
+            handlePhoto(
+              response.assets[0].uri,
+              title.split(' ')[0].toLowerCase(),
+            );
+          }
           bottomSheetRef.current?.hide();
         })
       : await launchCameraHandler(options);
   }, []);
 
   const launchCameraHandler = async (options: CameraOptions) => {
-    console.log(await getCamerPermission());
-    
     (await getCamerPermission())
       ? launchCamera(options, response => {
-          return response.assets && setPhoto(response.assets);
+          if (response.assets && response.assets[0]) {
+            handlePhoto(
+              response.assets[0].uri,
+              title.split(' ')[0].toLowerCase(),
+            );
+            setPhoto(response.assets[0]);
+          }
+          return true;
         })
       : null;
     bottomSheetRef.current?.hide();
@@ -90,7 +105,7 @@ export const ImagePickerComponent = ({title}: ImagePickerComponentProps) => {
             />
           </View>
         </BottomSheet>
-        {!photo.length ? (
+        {!photo ? (
           <TouchableOpacity
             style={styles.innerContainer}
             onPress={handleChoosePhoto}>
@@ -100,15 +115,13 @@ export const ImagePickerComponent = ({title}: ImagePickerComponentProps) => {
         ) : null}
       </>
       <View style={styles.imageContainer}>
-        {photo.length
-          ? photo.map(({id, uri}) => (
-              <Image
-                removeIconHandler={removeIconHandler}
-                uri={uri!}
-                key={id?.toString()}
-              />
-            ))
-          : null}
+        {photo ? (
+          <Image
+            removeIconHandler={removeIconHandler}
+            uri={photo.uri!}
+            key={photo.id?.toString()}
+          />
+        ) : null}
       </View>
     </View>
   );
@@ -152,7 +165,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignContent: 'center',
     width: '100%',
-    paddingTop:10,
+    paddingTop: 10,
     paddingHorizontal: 10,
     flexDirection: 'row',
   },

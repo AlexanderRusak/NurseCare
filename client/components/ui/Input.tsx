@@ -11,7 +11,7 @@ interface InputProps {
   labelStyle?: StyleProp<TextStyle>;
   inputContainerStyle?: StyleProp<TextStyle>;
   errorMessageStyle?: StyleProp<TextStyle>;
-  handleText: (text: string, key: string) => void;
+  handleText: (text?: string, key?: string) => void;
   required?: boolean;
   errorMessageText?: string;
   rows?: number;
@@ -33,7 +33,7 @@ export const Input = ({
   const [text, setText] = useState(defaultText || undefined);
 
   useEffect(() => {
-    text && handleText(text, label.replace(/\s+/g, '').toLowerCase());
+    handleText(text, label.split(' ')[0].replace(/\s+/g, '').toLowerCase());
   }, [text]);
 
   const changeTextHandler = useCallback((text: string) => {
@@ -68,7 +68,7 @@ export const Input = ({
           !!text ? (
             <Icon
               size={24}
-              styles={styles.iconClose}
+              styles={{...styles.iconClose, height: rows * 50}}
               iconFont="Ionicons"
               iconName="close"
               onPress={clearTextHandler}
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
   },
   iconClose: {
     color: mainColor,
-    padding: 0,
   },
   error: {
     color: dangerMainColor,

@@ -1,30 +1,63 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import {Button} from 'react-native-elements';
-import { ImagePickerComponent } from '../components/imagePicker/ImagePickerComponent';
+import {Asset} from 'react-native-image-picker';
+
+import {ImagePickerComponent} from '../components/imagePicker/ImagePickerComponent';
+import {Button} from '../components/ui/Button';
 import {Input} from '../components/ui/Input';
+import {findFalsyValuesInObject} from '../helpers/helpers';
 
 interface NurseData {
   firstname?: string;
   secondname?: string;
+  lastname?: string;
+  address?: string;
+  specialization?: string;
+  selfie?: string;
+  scan?: string;
 }
 
 export const RegistrationNewNurse = () => {
-  const newNurseData = useRef<NurseData>({});
-  const handleText = useCallback((text: string, key: string) => {
-    newNurseData.current[key as keyof NurseData] = text;
-    console.log(newNurseData.current);
+  const newNurseData = useRef<NurseData>({
+    selfie: undefined,
+    scan: undefined,
+  });
+  const [disabled, setDisbled] = useState(
+    findFalsyValuesInObject(newNurseData.current),
+  );
+
+  const handleData = useCallback((data?: string, key?: string) => {
+    newNurseData.current[key as keyof NurseData] = data;
+    setDisbled(findFalsyValuesInObject(newNurseData.current));
   }, []);
 
   return (
-    <ScrollView>
-      <Input label="Firstname" handleText={handleText} required />
-      <Input label="Lastname" handleText={handleText} required />
-      <Input label="Secondname" handleText={handleText} required />
-      <Input label="Address (City, District)" handleText={handleText} required />
-      <Input label="Specialization, Experience" handleText={handleText} required rows={2} />
-      <ImagePickerComponent title="Scan of certification or another official document"/>
-      <ImagePickerComponent title="Selfie with ID or another official document"/>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <Input label="Firstname" handleText={handleData} required />
+        <Input label="Lastname" handleText={handleData} required />
+        <Input label="Secondname" handleText={handleData} required />
+        <Input
+          label="Address (City, District)"
+          handleText={handleData}
+          required
+        />
+        <Input
+          label="Specialization, Experience"
+          handleText={handleData}
+          required
+          rows={2}
+        />
+        <ImagePickerComponent
+          handlePhoto={handleData}
+          title="Scan of certification or another official document"
+        />
+        <ImagePickerComponent
+          handlePhoto={handleData}
+          title="Selfie with ID or another official document"
+        />
+      </ScrollView>
+      <Button disabled={disabled} size="lg" title="Send to Validation" />
+    </>
   );
 };

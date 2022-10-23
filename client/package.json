@@ -17,7 +17,7 @@
     "@react-navigation/stack": "^6.3.1",
     "@reduxjs/toolkit": "^1.8.5",
     "@rneui/base": "^0.0.0-edge.2",
-    "@rneui/themed": "github:react-native-elements/react-native-elements#themed",
+    "@rneui/themed": "^4.0.0-rc.6",
     "better-react-native-image-viewing": "^0.2.7",
     "graphql": "^16.6.0",
     "react": "18.1.0",
