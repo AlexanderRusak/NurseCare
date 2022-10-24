@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "486126542545",
+    "project_id": "nurcecare",
+    "storage_bucket": "nurcecare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486126542545:android:d501be585eadff5f65aff0",
+        "android_client_info": {
+          "package_name": "com.client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486126542545-td7fgak3l7r3vivk3gudmi3146gob775.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7xspjziMwGxaW8sEO-SzKhVWtsViJIA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486126542545-td7fgak3l7r3vivk3gudmi3146gob775.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
