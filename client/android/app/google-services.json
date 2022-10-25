@@ -29,6 +29,13 @@
             {
               "client_id": "486126542545-td7fgak3l7r3vivk3gudmi3146gob775.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "486126542545-o06iie4n3a4k06409fe6qp80g09cn8ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.client"
+              }
             }
           ]
         }

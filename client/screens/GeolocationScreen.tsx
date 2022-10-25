@@ -29,7 +29,7 @@ import {Icon} from '../components/ui/Icon';
 
 export const GeolocationScreen = () => {
   const {coordinates} = useSelector((store: IStore) => store.location);
-  const {update, coordinatesData} = useContext(Coordinates);
+  const {update} = useContext(Coordinates);
 
   const [currentPosition, setCurrentPosition] = useState<
     [number, number] | null
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   marker: {
     position: 'absolute',
-    paddingBottom:50,
+    paddingBottom: 50,
     color: mainColor,
     fontSize: 50,
   },

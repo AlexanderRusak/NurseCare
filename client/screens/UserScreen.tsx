@@ -5,7 +5,7 @@ import {mainColor} from '../theme/themeConstants';
 import {Button} from 'react-native-elements';
 
 export const UserScreen = () => {
-  const [phoneNumber, setPhoneNumber] = useState('+77770204174');
+  /*  const [phoneNumber, setPhoneNumber] = useState('+77770204174');
   const [code, setCode] = useState('123456');
   const [confirm, setConfirm] =
     useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
@@ -36,11 +36,11 @@ export const UserScreen = () => {
     } catch (e) {
       console.log('error', e);
     }
-  };
+  }; */
 
   return (
     <View style={styles.container}>
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         value={phoneNumber}
         onChangeText={changePhoneNumberHandler}
@@ -51,7 +51,8 @@ export const UserScreen = () => {
         value={code}
         onChangeText={changeCodeHandler}
       />
-      <Button title={'Confirm'} onPress={confirmCode} />
+      <Button title={'Confirm'} onPress={confirmCode} /> */}
+      <Text>User</Text>
     </View>
   );
 };
@@ -62,10 +63,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  input: {
-    borderColor: mainColor,
-    borderWidth: 2,
-    width: '50%',
   },
 });

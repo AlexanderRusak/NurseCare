@@ -5,8 +5,9 @@ import {NewsScreen} from './NewsScreen';
 import {UserScreen} from './UserScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from '../components/ui/Icon';
-import { GeolocationComponent } from '../components/geolocation/GeolocationComponent';
-import { HOMESCREEN, NEWSSCREEN, SEARCHSCREEN, USERSCREEN } from './ScreenNames';
+import {GeolocationComponent} from '../components/geolocation/GeolocationComponent';
+import {HOMESCREEN, NEWSSCREEN, SEARCHSCREEN, USERSCREEN} from './ScreenNames';
+import {UserHeader} from '../components/user/UserHeader';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +19,7 @@ export const TabsScreen = () => {
           tabBarIcon: ({color}) => (
             <Icon iconFont="FontAwesome" iconName="home" color={color} />
           ),
-          header:({navigation})=> <GeolocationComponent/>
+          header: ({navigation}) => <GeolocationComponent />,
         }}
         name={HOMESCREEN}
         component={HomeScreen}
@@ -46,6 +47,7 @@ export const TabsScreen = () => {
           tabBarIcon: ({color}) => (
             <Icon iconFont="FontAwesome" iconName="user" color={color} />
           ),
+          header: () => <UserHeader />,
         }}
         name={USERSCREEN}
         component={UserScreen}
