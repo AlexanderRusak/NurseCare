@@ -47,7 +47,7 @@ export const TabsScreen = () => {
           tabBarIcon: ({color}) => (
             <Icon iconFont="FontAwesome" iconName="user" color={color} />
           ),
-          header: () => <UserHeader />,
+          headerShown:false,
         }}
         name={USERSCREEN}
         component={UserScreen}

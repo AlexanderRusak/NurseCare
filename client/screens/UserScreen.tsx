@@ -3,6 +3,8 @@ import {Text, View, StyleSheet, TextInput, Alert} from 'react-native';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {mainColor} from '../theme/themeConstants';
 import {Button} from 'react-native-elements';
+import {SideMenu} from '../components/sideMenu/SideMenu';
+import {UserHeader} from '../components/user/UserHeader';
 
 export const UserScreen = () => {
   /*  const [phoneNumber, setPhoneNumber] = useState('+77770204174');
@@ -39,8 +41,9 @@ export const UserScreen = () => {
   }; */
 
   return (
-    <View style={styles.container}>
-      {/* <TextInput
+    <>
+      <View style={styles.container}>
+        {/* <TextInput
         style={styles.input}
         value={phoneNumber}
         onChangeText={changePhoneNumberHandler}
@@ -52,16 +55,12 @@ export const UserScreen = () => {
         onChangeText={changeCodeHandler}
       />
       <Button title={'Confirm'} onPress={confirmCode} /> */}
-      <Text>User</Text>
-    </View>
+        <UserHeader />
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: {},
 });
