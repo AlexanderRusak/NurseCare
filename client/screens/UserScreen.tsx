@@ -3,7 +3,6 @@ import {Text, View, StyleSheet, TextInput, Alert} from 'react-native';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {mainColor} from '../theme/themeConstants';
 import {Button} from 'react-native-elements';
-import {SideMenu} from '../components/sideMenu/SideMenu';
 import {UserHeader} from '../components/user/UserHeader';
 
 export const UserScreen = () => {

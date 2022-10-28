@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Image} from 'react-native-elements';
 import {mainColor} from '../../theme/themeConstants';
-import {SideMenu} from '../sideMenu/SideMenu';
 
 import {Icon} from '../ui/Icon';
 
@@ -24,7 +23,7 @@ export const UserHeader = () => {
   
 
   return (
-    <SideMenu open={isOpen} onToggleHandler={onToggleHandler}>
+  
       <View style={styles.container}>
         <Image
           source={{
@@ -45,7 +44,7 @@ export const UserHeader = () => {
           />
         </TouchableOpacity>
       </View>
-    </SideMenu>
+
   );
 };
 
